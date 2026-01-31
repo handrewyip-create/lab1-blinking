@@ -1,0 +1,39 @@
+#include "mbed.h"
+
+// Blinking rate in milliseconds
+#define BLINKING_RATE     500ms
+
+int main()
+{
+    // Initialise the digital pins LED1, LED2 and LED3 as output
+    DigitalOut led(LED1);
+    DigitalOut led2(LED2);
+    DigitalOut led3(LED3);
+
+    int timer = 0; //Declare a variable for setting the timing logic
+
+    while (true) {
+
+        //timer keep +1 until bigger then 4 then return to value of 0
+        timer++;
+        if (timer >= 4) timer = 0; 
+
+        led2 = !led2; //blinking rate is set to 500ms and led2 would have the fastest blink
+
+        // LED1 blinks every 1000ms 
+        //remainder=0 when timer=2 or 4 so that led1 blinks half slower than led2 (led2 blinks twice faster than led1)
+        if (timer % 2 == 0) {
+            led = !led; 
+        }
+
+        // LED3 blinks every 2000ms which is half as fast as LED1
+        //remainder=0 when timer=4 so that led3 blinks half as fast as led1
+        if (timer % 4 == 0) {
+            led3 = !led3; 
+        }
+
+        ThisThread::sleep_for(BLINKING_RATE);
+    }
+     
+
+}
